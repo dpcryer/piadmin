@@ -1,0 +1,34 @@
+---
+- name: Create ansible user
+  remote_user: pi
+  become: yes
+  user:
+    name: ansible
+    group: users
+
+- name: Create .ssh directory
+  remote_user: pi
+  become: yes
+  file:
+    path: /home/ansible/.ssh
+    owner: ansible
+    group: users
+    mode: 0700
+    state: directory
+
+- name: Copy ansible public key
+  remote_user: pi
+  become: yes
+  copy:
+    src: ansible_rsa.pub
+    dest: /home/ansible/.ssh/authorized_keys
+
+- name: Allow ansible to do sudo
+  remote_user: pi
+  become: yes
+  lineinfile:
+    dest: /etc/sudoers
+    line: "ansible ALL=(ALL) NOPASSWD: ALL"
+    state: present
+    insertafter: EOF
+    create: True

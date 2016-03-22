@@ -1,0 +1,22 @@
+---
+- name: Get picamerad from Git
+  become: yes
+  become_user: david
+  git:
+    dest: /home/david/picamerad
+    repo: https://github.com/dpcryer/picamerad.git
+    force: yes
+
+- name: Create videos directory
+  become: yes
+  become_user: david
+  file:
+    path: /home/ansible/videos
+    state: directory
+
+- name: Create images directory
+  become: yes
+  become_user: david
+  file:
+    path: /home/ansible/images
+    state: directory

@@ -1,0 +1,16 @@
+---
+- hosts: pi
+  remote_user: pi
+  tasks:
+  - name: Create ansible user
+    become: yes
+    user:
+      name: ansible
+      group: users
+
+  - name: Create david user
+    remote_user: pi
+    become: yes
+    user:
+      name: david
+      group: users

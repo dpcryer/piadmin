@@ -1,0 +1,24 @@
+---
+- name: Create david user
+  remote_user: ansible
+  become: yes
+  user:
+    name: david
+    group: users
+
+- name: Set hostname
+  become: yes
+  hostname:
+    name: "{{ lookup('ini', 'name section={{ ansible_eth0.macaddress }} file=pidetails.ini') }}.{{domain}}"
+
+- name: Print out details on the Raspberry PI
+  debug:
+    msg: "Domain: {{ domain }}"
+
+- name: Test creating a file with a template
+  become: yes
+  become_user: david
+  template:
+    dest: /home/david/template-test
+    backup: yes
+    src: test
